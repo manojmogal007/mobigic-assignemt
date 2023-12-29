@@ -31,7 +31,7 @@ const Dashboard = () => {
           if(res.data.message="File uploaded successfully"){
             setCode(res.data.code);
             setFile(null)
-            handleGetFiles()
+            // handleGetFiles()
           }
           
          })
