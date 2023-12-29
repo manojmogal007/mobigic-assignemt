@@ -1,0 +1,93 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.user{
+    display: flex;
+    justify-content: flex-end;
+    /* border: 1px solid red; */
+    padding: 15px ;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    width: 95% !important;
+}
+.user *{
+    margin: 10px;
+}
+.dashboard{
+    width: 100%;
+    min-height: 100vh;
+    /* border: 1px solid red; */
+    display: block;
+    justify-content: center;
+}
+.dashboard>div{
+    /* border: 1px solid green; */
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+.uploadcontainer>h2,.listcontainer>h2{
+    padding-bottom: 30px;
+}
+.uploadcontainer{
+    padding: 30px 0px;
+}
+button{
+    cursor: pointer;
+}
+.uploadcontainer button, .listcontainer>button,.user>button{
+    padding: 5px 12px;
+    border-radius: 5px;
+    background-color: rgb(70, 194, 70);
+    color: white;
+    border: none;
+}
+.uploadcontainer button:hover,.listcontainer>button:hover{
+    transform: scale(1.1);
+}
+.listcontainer>button,.user>button{
+    background-color: #1976d2 !important;
+    margin-bottom: 20px;
+}
+.verification{
+    margin-bottom: 30px;
+}
+.verification>input{
+    padding: 5px 20px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    outline: none;
+}
+.verification>input:focus{
+    border-color: #1976d2; 
+    box-shadow: 0 0 0 0.1rem rgba(25, 118, 210, 0.25);
+}
+.verification>button{
+    padding: 5px 10px ;
+    border-radius: 5px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    margin-left: 10px;
+}
+.files{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 5px;
+}
+.files>.card{
+    border-radius: 7px;
+    padding: 10px ;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.delete, .download{
+    padding: 3px 6px;
+    background-color: red;
+    color: white;
+    border-radius: 3px;
+    border: none;
+    margin-top: 10px;
+}
+.download{
+    background-color: #1976d2 !important;
+}
