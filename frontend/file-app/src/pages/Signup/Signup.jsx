@@ -37,13 +37,19 @@ const Signup = () => {
             }
         })
         .then((res)=>{
-            console.log(res)
+            // console.log(res)
             if(res.data.msg='User registered successfully'){
-                navigate('/signin')
+                setState({...state,open:true,message:'Signup Successful'})
+                setTimeout(()=>{
+                    navigate('/signin')
+                },2000)
+            }else{
+                setState({...state,open:true,message:'Please try again'}) 
             }
         })
         .catch((err)=>{
-            console.log(err)
+            // console.log(err)
+            setState({...state,open:true,message:'Please try again'}) 
         })
     }
 

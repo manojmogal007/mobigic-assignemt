@@ -91,3 +91,13 @@ button{
 .download{
     background-color: #1976d2 !important;
 }
+.loader{
+    /* border: 1px solid red; */
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.code{
+    margin-top: 15px;
+}

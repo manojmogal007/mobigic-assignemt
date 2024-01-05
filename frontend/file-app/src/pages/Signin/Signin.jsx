@@ -34,12 +34,17 @@ const Signin = () => {
             console.log(res)
             if(res.data.msg='Login successful'){
                 localStorage.setItem('fileuser',JSON.stringify(res.data.user))
-                navigate('/')
+                setState({...state,open:true,message:res.data.msg})
+                setTimeout(()=>{
+                    navigate('/')
+                },2000)
+            }else if(res.data.msg==='Invalid credentials try again'){
+                setState({...state,open:true,message:res.data.msg}) 
             }
         })
         .catch((err)=>{
             console.log(err)
-            
+            setState({...state,open:true,message:'Please try again'}) 
         })
     }
 

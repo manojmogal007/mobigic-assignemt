@@ -6,11 +6,13 @@ const cors=require('cors')
 const fs = require('fs').promises
 
 const app = express();
+
+
 app.use(cors({
-  origin: "*"
+  origin:"*"
 }))
 app.use(express.json())
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8888;
 
 
 
@@ -66,7 +68,7 @@ app.post('/login', async (req, res) => {
     if (user && await bcrypt.compare(password, user.password)) {
       res.status(200).json({ 'msg': 'Login successful',user });
     } else {
-      res.status(401).json({ 'msg': 'Invalid credentials try again' });
+      res.status(200).json({ 'msg': 'Invalid credentials try again' });
     }
   }catch(err){
     res.status(400).json({'msg':'Error'})

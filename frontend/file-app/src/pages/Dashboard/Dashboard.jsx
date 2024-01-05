@@ -3,6 +3,8 @@ import './Dashboard.css'
 import axios from 'axios'
 import { apiurl } from '../../api'
 import { useNavigate } from 'react-router-dom'
+import Snackbar from '@mui/material/Snackbar';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Dashboard = () => {
     const [file, setFile] = useState(null);
@@ -13,6 +15,13 @@ const Dashboard = () => {
     const [visible,setVisible]=useState(false)
     const [values,setValues]=useState({})
     const [user,setUser]=useState(JSON.parse(localStorage.getItem('fileuser')))
+    const [loading,settLoading]=useState(true)
+    const [state,setState]=useState({
+      open:false,
+      message:'',
+      vertical:'top',
+      horizontal:'right',
+  })
 
     const navigate=useNavigate()
   
@@ -31,7 +40,8 @@ const Dashboard = () => {
           if(res.data.message="File uploaded successfully"){
             setCode(res.data.code);
             setFile(null)
-            // handleGetFiles()
+            setState({...state,open:true,message:res.data.message})
+            handleGetFiles()
           }
           
          })
@@ -47,6 +57,7 @@ const Dashboard = () => {
         .then((res)=>{
           console.log(res)
           setFiles(res.data);
+          settLoading(false)
         })
         .catch((err)=>{
           console.log(err)
@@ -59,6 +70,9 @@ const Dashboard = () => {
       axios.delete(`${apiurl}/files/${fileId}`)
       .then((res)=>{
         console.log(res)
+        if(res.data.message==='File deleted successfully'){
+          setState({...state,open:true,message:res.data.message})
+        }
         handleGetFiles()
       })
       .catch((err)=>{
@@ -76,7 +90,10 @@ const Dashboard = () => {
     const handledownload=()=>{
         const {code,name}=values
         if(code !== checkCode){
-            alert('Wrong code')
+            // alert('Wrong code')
+            setState({...state,open:true,message:'You entered wrong code'})
+            setCheckCode('')
+            setVisible(false)
             return;
         }
       setVisible(false)
@@ -86,6 +103,7 @@ const Dashboard = () => {
       })
       .then((res)=>{
         console.log(res)
+        setCheckCode('')
         const blob = new Blob([res.data]);
   
         const link = document.createElement('a');
@@ -112,8 +130,21 @@ const Dashboard = () => {
         handleGetFiles()
     },[])
 
+    const handleClose=()=>{
+      setState({...state,open:false})
+    }
+
+    const {message,open,vertical,horizontal}=state
   return (
     <div className='dashboard'>
+      <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={open}
+            onClose={handleClose}
+            message={message}
+            key={vertical + horizontal}
+            autoHideDuration={2000}
+        />
         <div className='user'>
             <h4>Hii {user?.username}</h4>
             <button onClick={handlelogout} className='logout'>Logout</button>
@@ -122,7 +153,7 @@ const Dashboard = () => {
         <h2>Upload File</h2>
         <input type="file" onChange={(e) => setFile(e.target.files[0])} />
         <button onClick={handleFileUpload}>Upload File</button>
-        {code && <p>Generated Code: {code}</p>}
+        {code && <p className='code'>Generated Code of above file: {code}</p>}
       </div>
 
       <div className='listcontainer'>
@@ -133,13 +164,17 @@ const Dashboard = () => {
             <button onClick={handledownload}>Download file</button>
         </div>}
         <div className='files'>
-          {files?.map((file) => (
+          {!loading && files?.map((file) => (
             <div key={file._id} className='card'>
               <p>{file.filename}</p>
               <div><button className='delete' onClick={() => handleDeleteFile(file._id)}>Delete</button> <button className='download' onClick={()=>checkcode(file.code,file.filename)}>Download</button></div>
             </div>
           ))}
+          
         </div>
+        {loading && <div className='loader'>
+            <CircularProgress />
+          </div>}
       </div>
     </div>
   )
